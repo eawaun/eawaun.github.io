@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Everor&#39;s blog
+        JVM 字符串常量池的垃圾回收｜Everor&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://everor.github.io/archives/">
+    <link rel="canonical" href="http://everor.github.io/2017/04/12/pool-of-literal-string-gc/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -114,6 +114,119 @@
 </script>
 
 <!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>JVM 字符串常量池的垃圾回收</h1>
+                    
+                    <span class="meta">
+                         作者 Everor
+                        <span>
+                          日期 2017-04-12
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            JVM 字符串常量池的垃圾回收
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p><strong>JVM字符串常量池会进行垃圾回收吗？</strong><br>会，但是对方法区的回收“成绩”比较难以令人满意，Java虚拟机规范中确实说过可以不要求虚拟机在方法区实现垃圾回收，而字符串常量池在方法区中。</p>
+<p>假设一个字符串”everor”已经进入了常量池，但是当前系统中没有一个String对象引用常量池中的”everor”常量（即String str = new String(“everor”);），也没有其他地方引用了这个字面量（即String str = “everor”;），如果这个时候发生了内存回收，而且有必要的话，这个”everor”常量就会被系统清理出常量池。</p>
+<p>在HotSpot虚拟机中，方法区又被称为永久代，永久代这个概念在其它虚拟机（如BEA JRockit、IBM J9等）中是不存在的。但是使用永久代来实现方法区，并不是一个好主意，因为这样更容易遇到内存溢出问题。从JDK1.7开始，逐步使用元空间（MetaSpace）代替永久代的概念。元空间的内存大小取决于本地内存大小。元空间代替永久代，并不意味着字符串常量池就到了元空间，而是移到了堆中。</p>
+<p><strong>延伸：何时将字符串对象引用放入字符串常量池？</strong><br>字符串常量池存放的是字符串对象的引用，字符串本身是一个对象，而对象是存放到堆中。当使用<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">String str1 = &quot;hello&quot;;</div><div class="line">String str2 = &quot;hello&quot;;</div></pre></td></tr></table></figure></p>
+<p>时，首先会看字符串常量池中是否已经有对“hello”字符串对象的引用，如果有，就返回池中的实例引用，如果不存在，就会实例化一个字符串到堆中，再在池中存一个对该字符串的引用。因此str1和str2指向的是同一个字符串对象。Java能够做这样的优化，是因为字符串是不可变的，可以不担心数据冲突进行共享。<br>而当使用<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">String str3 = new String(&quot;hello&quot;);</div></pre></td></tr></table></figure></p>
+<p>时，不管字符串常量池中是否已经有hello字符串的引用，都会在堆中创建一个字符串，str3指向堆中的字符串，因此str3和str1 str2不是指向同一个对象。<br>当使用<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">String str4 = str3.intern();</div></pre></td></tr></table></figure></p>
+<p>时，intern()方法表示如果str3的字符串在池中有，就返回池中的引用，否则在池中创建一个引用，再返回该引用，因此str4 str1 str2指向的是同一个字符串对象。</p>
+<p>参考<br>-<a href="https://book.douban.com/subject/24722612/" target="_blank" rel="external">《深入理解Java虚拟机》</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->

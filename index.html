@@ -245,7 +245,7 @@
                     <div class="about-me">
                         <!--移动端头部显示-->
                         <img src="null"/>
-                        <h5><a href="/about/">周亿煌</a></h5>
+                        <h5><a href="/about/">Everor</a></h5>
                         <p>null</p>
                     </div>
                 </div>
@@ -264,41 +264,18 @@
 
 <div class="post-preview "
      style="background-image: url('')">
-    <a href="/2016/09/04/My-New-Post/">
+    <a href="/2017/04/12/pool-of-literal-string-gc/">
         <h2 class="post-title">
-            My New Post
+            JVM 字符串常量池的垃圾回收
         </h2>
         <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2016-09-04
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-04-12
         </p>
         
         <div class="post-content-preview">
             <p>
-                Init here
-
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('')">
-    <a href="/2016/09/04/hello-world/">
-        <h2 class="post-title">
-            Hello World
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2016-09-04
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer i..
+                JVM字符串常量池会进行垃圾回收吗？会，但是对方法区的回收“成绩”比较难以令人满意，Java虚拟机规范中确实说过可以不要求虚拟机在方法区实现垃圾回收，而字符串常量池在方法区中。
+假设一个字符串”everor”已经进入了常量池，但是当前系统中没有一个String对象引用常量池中的”everor”常..
             </p>
         </div>
     </a>
@@ -333,7 +310,7 @@
                 <div class="short-about">
                     <!--侧边栏头像-->
                     
-                    <h5><a href="/about/">周亿煌</a></h5>
+                    <h5><a href="/about/">Everor</a></h5>
                     
                     <hr>
                     <!-- SNS Link 社交 -->
@@ -366,8 +343,6 @@
             
             <section>
                 <div class="tags">
-                    
-                    
                     
                 </div>
             </section>
@@ -410,7 +385,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Everor 2016
+                    Copyright &copy; Everor 2017
                     <br>
                     <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
                     <br>
